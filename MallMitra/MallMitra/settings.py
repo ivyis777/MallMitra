@@ -8,7 +8,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
+
 """
+from datetime import timedelta
 
 from pathlib import Path
 import os
@@ -46,7 +48,7 @@ SECRET_KEY = 'django-insecure-vw#$$3mxv+1qe8uyqgq@g=86_0bt*095aa8h!br(!oz4m@zhb6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.103', '192.168.0.104','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['192.168.0.103', '192.168.0.102','192.168.0.104','localhost','127.0.0.1',"0.0.0.0",]
 
 
 # Application definition
@@ -91,6 +93,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MallMitra.MallMitra.wsgi.application'
+
+
 
 
 # Database
@@ -152,3 +156,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "MallMitra.Core.authentication.MobileJWTAuthentication",
+    ),
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
